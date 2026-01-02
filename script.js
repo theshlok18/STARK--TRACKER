@@ -1,4 +1,17 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Mobile optimization
+    let isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // Prevent zoom on double tap for iOS
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        let now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
     // Elements
     const searchButton = document.getElementById("search-btn");
     const usernameInput = document.getElementById("user-input");
@@ -32,24 +45,49 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let currentPlatform = "leetcode";
 
-    // Tab switching functionality
+    // Tab switching functionality with touch support
     tabButtons.forEach(button => {
-        button.addEventListener("click", function() {
+        button.addEventListener("click", function(e) {
+            e.preventDefault();
             const platform = this.dataset.platform;
             switchPlatform(platform);
         });
+        
+        // Add touch feedback
+        if (isTouch) {
+            button.addEventListener("touchstart", function() {
+                this.style.transform = "scale(0.95)";
+            });
+            
+            button.addEventListener("touchend", function() {
+                this.style.transform = "";
+            });
+        }
     });
 
     function switchPlatform(platform) {
         currentPlatform = platform;
         
-        // Update active tab
-        tabButtons.forEach(btn => btn.classList.remove("active"));
-        document.querySelector(`[data-platform="${platform}"]`).classList.add("active");
+        // Update active tab with animation
+        tabButtons.forEach(btn => {
+            btn.classList.remove("active");
+            btn.style.transform = "";
+        });
         
-        // Update active content
-        platformContents.forEach(content => content.classList.remove("active"));
-        document.getElementById(`${platform}-content`).classList.add("active");
+        const activeTab = document.querySelector(`[data-platform="${platform}"]`);
+        activeTab.classList.add("active");
+        
+        // Update active content with fade effect
+        platformContents.forEach(content => {
+            content.classList.remove("active");
+            content.style.opacity = "0";
+        });
+        
+        setTimeout(() => {
+            const activeContent = document.getElementById(`${platform}-content`);
+            activeContent.classList.add("active");
+            activeContent.style.opacity = "1";
+        }, 150);
         
         // Update placeholder text
         const placeholders = {
@@ -59,24 +97,131 @@ document.addEventListener("DOMContentLoaded", function() {
         };
         usernameInput.placeholder = placeholders[platform];
         usernameInput.value = "";
+        
+        // Clear previous results
+        clearPreviousResults();
     }
 
-    // Validation function
+    // Clear previous results function
+    function clearPreviousResults() {
+        // Clear LeetCode
+        if (easyLevel) easyLevel.textContent = "0/0";
+        if (mediumLevel) mediumLevel.textContent = "0/0";
+        if (hardLevel) hardLevel.textContent = "0/0";
+        if (leetcodeStatsCard) leetcodeStatsCard.innerHTML = "";
+        
+        // Reset progress circles
+        [easyProgressCircle, mediumProgressCircle, hardProgressCircle].forEach(circle => {
+            if (circle) circle.style.setProperty("--progress-degree", "0%");
+        });
+        
+        // Clear GitHub
+        if (githubName) githubName.textContent = "GitHub Profile";
+        if (githubBio) githubBio.textContent = "Enter username to view profile";
+        if (githubAvatar) githubAvatar.style.display = "none";
+        if (githubPlaceholder) githubPlaceholder.style.display = "block";
+        if (githubRepos) githubRepos.textContent = "0";
+        if (githubFollowers) githubFollowers.textContent = "0";
+        if (githubFollowing) githubFollowing.textContent = "0";
+        if (githubStars) githubStars.textContent = "0";
+        if (githubLanguages) githubLanguages.innerHTML = "<p>No data available</p>";
+        
+        // Clear HackerRank
+        if (hackerrankRank) hackerrankRank.textContent = "Unranked";
+        if (hackerrankBadges) {
+            hackerrankBadges.innerHTML = `
+                <div class="badge-placeholder">
+                    <i class="fas fa-trophy"></i>
+                    <p>No badges earned yet</p>
+                </div>
+            `;
+        }
+        
+        // Reset skill bars
+        const skillBars = document.querySelectorAll(".skill-bar");
+        skillBars.forEach(bar => {
+            bar.style.width = "0%";
+        });
+    }
+
+    // Enhanced validation with mobile-friendly alerts
     function validateUsername(userName) {
         if (userName.trim() === "") {
-            alert("Username should not be empty");
+            showMobileAlert("Username should not be empty");
             return false;
         }
         
         if (currentPlatform === "leetcode") {
             const usernameRegex = /^[a-zA-Z][a-zA-Z0-9]{2,19}$/;
             if (!usernameRegex.test(userName)) {
-                alert("Invalid LeetCode username format");
+                showMobileAlert("Invalid LeetCode username format");
                 return false;
             }
         }
         
         return true;
+    }
+    
+    // Mobile-friendly alert system
+    function showMobileAlert(message) {
+        // Create custom alert for better mobile experience
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'mobile-alert';
+        alertDiv.innerHTML = `
+            <div class="alert-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>${message}</p>
+                <button onclick="this.parentElement.parentElement.remove()">OK</button>
+            </div>
+        `;
+        
+        // Add styles
+        alertDiv.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        `;
+        
+        const alertContent = alertDiv.querySelector('.alert-content');
+        alertContent.style.cssText = `
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 300px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        `;
+        
+        const alertButton = alertContent.querySelector('button');
+        alertButton.style.cssText = `
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 15px;
+            cursor: pointer;
+            min-height: 44px;
+            min-width: 80px;
+        `;
+        
+        document.body.appendChild(alertDiv);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (alertDiv.parentElement) {
+                alertDiv.remove();
+            }
+        }, 5000);
     }
 
     // LeetCode API functions
@@ -267,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function() {
         label.textContent = `${solved}/${total}`;
     }
 
-    // Main search function
+    // Enhanced search button with mobile feedback
     async function handleSearch() {
         const userName = usernameInput.value.trim();
         
@@ -275,25 +420,99 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        switch (currentPlatform) {
-            case "leetcode":
-                await fetchLeetCodeData(userName);
-                break;
-            case "github":
-                await fetchGitHubData(userName);
-                break;
-            case "hackerrank":
-                await fetchHackerRankData(userName);
-                break;
+        // Add loading state with haptic feedback on mobile
+        searchButton.classList.add('loading');
+        searchButton.disabled = true;
+        
+        // Haptic feedback for mobile devices
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+
+        try {
+            switch (currentPlatform) {
+                case "leetcode":
+                    await fetchLeetCodeData(userName);
+                    break;
+                case "github":
+                    await fetchGitHubData(userName);
+                    break;
+                case "hackerrank":
+                    await fetchHackerRankData(userName);
+                    break;
+            }
+            
+            // Success haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 100, 50]);
+            }
+        } catch (error) {
+            // Error haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100, 50, 100]);
+            }
+            showMobileAlert("Search failed. Please try again.");
+        } finally {
+            searchButton.classList.remove('loading');
+            searchButton.disabled = false;
         }
     }
 
-    // Event listeners
+    // Event listeners with mobile optimization
     searchButton.addEventListener("click", handleSearch);
     
+    // Enhanced keyboard support
     usernameInput.addEventListener("keypress", function(e) {
         if (e.key === "Enter") {
+            e.preventDefault();
             handleSearch();
         }
     });
+    
+    // Mobile input optimization
+    usernameInput.addEventListener("focus", function() {
+        // Scroll input into view on mobile
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+    });
+    
+    // Touch feedback for search button
+    if (isTouch) {
+        searchButton.addEventListener("touchstart", function() {
+            if (!this.disabled) {
+                this.style.transform = "scale(0.95)";
+            }
+        });
+        
+        searchButton.addEventListener("touchend", function() {
+            this.style.transform = "";
+        });
+    }
+    
+    // Orientation change handler
+    window.addEventListener("orientationchange", function() {
+        setTimeout(() => {
+            // Recalculate viewport height for mobile browsers
+            document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+        }, 500);
+    });
+    
+    // Initial viewport height calculation
+    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    
+    // Service Worker registration for PWA
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js')
+                .then(function(registration) {
+                    console.log('SW registered: ', registration);
+                })
+                .catch(function(registrationError) {
+                    console.log('SW registration failed: ', registrationError);
+                });
+        });
+    }
 });
