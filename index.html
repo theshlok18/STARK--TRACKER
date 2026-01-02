@@ -1,1 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stark Tracker - LeetCode Stats Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <h1>Stark Tracker</h1>
+            </div>
+            <p class="subtitle">Track Your LeetCode Journey</p>
+        </div>
 
+        <div class="platform-tabs">
+            <button class="tab-btn active" data-platform="leetcode">
+                <i class="fas fa-code"></i>
+                LeetCode
+            </button>
+            <button class="tab-btn" data-platform="github">
+                <i class="fab fa-github"></i>
+                GitHub
+            </button>
+            <button class="tab-btn" data-platform="hackerrank">
+                <i class="fas fa-trophy"></i>
+                HackerRank
+            </button>
+        </div>
+
+        <div class="search-section">
+            <div class="search-container">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Enter your LeetCode username" id="user-input">
+                    <button type="button" id="search-btn">
+                        <i class="fas fa-search"></i>
+                        <span>Search</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <!-- LeetCode Stats -->
+            <div class="platform-content active" id="leetcode-content">
+                <div class="progress-section">
+                    <h3>Problem Solving Progress</h3>
+                    <div class="progress-grid">
+                        <div class="progress-item">
+                            <div class="progress-circle easy-progress" id="circle">
+                                <div class="progress-inner">
+                                    <span id="easy-label">0/0</span>
+                                    <small>Easy</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-circle medium-progress" id="circle">
+                                <div class="progress-inner">
+                                    <span id="medium-label">0/0</span>
+                                    <small>Medium</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-circle hard-progress" id="circle">
+                                <div class="progress-inner">
+                                    <span id="hard-label">0/0</span>
+                                    <small>Hard</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-cards">
+                    <h3>Performance Metrics</h3>
+                    <div class="stats-card" id="leetcode-stats"></div>
+                </div>
+            </div>
+
+            <!-- GitHub Stats -->
+            <div class="platform-content" id="github-content">
+                <div class="github-overview">
+                    <div class="profile-section">
+                        <div class="profile-card">
+                            <div class="profile-avatar">
+                                <img id="github-avatar" src="" alt="Profile" style="display: none;">
+                                <i class="fab fa-github" id="github-placeholder"></i>
+                            </div>
+                            <div class="profile-info">
+                                <h3 id="github-name">GitHub Profile</h3>
+                                <p id="github-bio">Enter username to view profile</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="github-stats-grid">
+                        <div class="github-stat-card">
+                            <i class="fas fa-book"></i>
+                            <div class="stat-info">
+                                <span class="stat-number" id="github-repos">0</span>
+                                <span class="stat-label">Repositories</span>
+                            </div>
+                        </div>
+                        <div class="github-stat-card">
+                            <i class="fas fa-users"></i>
+                            <div class="stat-info">
+                                <span class="stat-number" id="github-followers">0</span>
+                                <span class="stat-label">Followers</span>
+                            </div>
+                        </div>
+                        <div class="github-stat-card">
+                            <i class="fas fa-user-plus"></i>
+                            <div class="stat-info">
+                                <span class="stat-number" id="github-following">0</span>
+                                <span class="stat-label">Following</span>
+                            </div>
+                        </div>
+                        <div class="github-stat-card">
+                            <i class="fas fa-star"></i>
+                            <div class="stat-info">
+                                <span class="stat-number" id="github-stars">0</span>
+                                <span class="stat-label">Total Stars</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="language-chart">
+                        <h3>Top Languages</h3>
+                        <div class="languages-container" id="github-languages">
+                            <p>No data available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HackerRank Stats -->
+            <div class="platform-content" id="hackerrank-content">
+                <div class="hackerrank-overview">
+                    <div class="rank-section">
+                        <div class="rank-card">
+                            <i class="fas fa-medal"></i>
+                            <div class="rank-info">
+                                <h3 id="hackerrank-rank">Unranked</h3>
+                                <p>Global Ranking</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="badges-section">
+                        <h3>Skill Badges</h3>
+                        <div class="badges-grid" id="hackerrank-badges">
+                            <div class="badge-placeholder">
+                                <i class="fas fa-trophy"></i>
+                                <p>No badges earned yet</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skills-section">
+                        <h3>Programming Skills</h3>
+                        <div class="skills-grid" id="hackerrank-skills">
+                            <div class="skill-card">
+                                <i class="fab fa-python"></i>
+                                <span>Python</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <i class="fab fa-java"></i>
+                                <span>Java</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-card">
+                                <i class="fab fa-js"></i>
+                                <span>JavaScript</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2024 Stark Tracker. Created by <strong>theshlok18</strong> ™</p>
+        </footer>
+    </div>
+    
+
+
+    <script src="script.js"></script>
+</body>
+</html>
