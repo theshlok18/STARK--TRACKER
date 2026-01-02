@@ -1263,21 +1263,59 @@
         <script>
             // LeetCode API functions
             async function fetchLeetCodeData(userName) {
-                const url = `https://leetcode-stats-api.herokuapp.com/${userName}`;
+                // Try multiple API endpoints for better reliability
+                const apiEndpoints = [
+                    `https://leetcode-api-faisalshohag.vercel.app/${userName}`,
+                    `https://cors-anywhere.herokuapp.com/https://leetcode-stats-api.herokuapp.com/${userName}`,
+                    `https://leetcode-stats-api.herokuapp.com/${userName}`
+                ];
                 
                 try {
                     searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
                     searchButton.disabled = true;
                     
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error("Unable to fetch LeetCode data");
+                    let data = null;
+                    let lastError = null;
+                    
+                    // Try each API endpoint
+                    for (const url of apiEndpoints) {
+                        try {
+                            const response = await fetch(url, {
+                                method: 'GET',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            
+                            if (response.ok) {
+                                data = await response.json();
+                                break; // Success, exit loop
+                            }
+                        } catch (err) {
+                            lastError = err;
+                            continue; // Try next endpoint
+                        }
                     }
                     
-                    const data = await response.json();
-                    displayLeetCodeData(data);
+                    if (data) {
+                        displayLeetCodeData(data);
+                    } else {
+                        throw new Error("Unable to fetch LeetCode data. Please try again later.");
+                    }
+                    
                 } catch (error) {
-                    leetcodeStatsCard.innerHTML = `<div class="card"><h4>Error</h4><p>${error.message}</p></div>`;
+                    console.error('LeetCode API Error:', error);
+                    leetcodeStatsCard.innerHTML = `
+                        <div class="card">
+                            <h4>API Error</h4>
+                            <p>Unable to fetch LeetCode data. This might be due to CORS restrictions on GitHub Pages.</p>
+                        </div>
+                        <div class="card">
+                            <h4>Workaround</h4>
+                            <p>Try opening the site locally or use a different browser.</p>
+                        </div>
+                    `;
                 } finally {
                     searchButton.innerHTML = '<i class="fas fa-search"></i> <span>Search</span>';
                     searchButton.disabled = false;
@@ -1318,18 +1356,42 @@
                     searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
                     searchButton.disabled = true;
 
-                    const userResponse = await fetch(`https://api.github.com/users/${userName}`);
+                    // GitHub API with better error handling
+                    const userResponse = await fetch(`https://api.github.com/users/${userName}`, {
+                        headers: {
+                            'Accept': 'application/vnd.github.v3+json',
+                            'User-Agent': 'Stark-Tracker-App'
+                        }
+                    });
+                    
                     if (!userResponse.ok) {
-                        throw new Error("GitHub user not found");
+                        if (userResponse.status === 404) {
+                            throw new Error("GitHub user not found");
+                        } else if (userResponse.status === 403) {
+                            throw new Error("GitHub API rate limit exceeded. Please try again later.");
+                        } else {
+                            throw new Error(`GitHub API error: ${userResponse.status}`);
+                        }
                     }
                     
                     const userData = await userResponse.json();
                     
-                    const reposResponse = await fetch(`https://api.github.com/users/${userName}/repos?per_page=100`);
-                    const reposData = await reposResponse.json();
+                    // Fetch repositories with error handling
+                    const reposResponse = await fetch(`https://api.github.com/users/${userName}/repos?per_page=100&sort=updated`, {
+                        headers: {
+                            'Accept': 'application/vnd.github.v3+json',
+                            'User-Agent': 'Stark-Tracker-App'
+                        }
+                    });
+                    
+                    let reposData = [];
+                    if (reposResponse.ok) {
+                        reposData = await reposResponse.json();
+                    }
                     
                     displayGitHubData(userData, reposData);
                 } catch (error) {
+                    console.error('GitHub API Error:', error);
                     displayGitHubError(error.message);
                 } finally {
                     searchButton.innerHTML = '<i class="fas fa-search"></i> <span>Search</span>';
