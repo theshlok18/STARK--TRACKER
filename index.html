@@ -6,20 +6,94 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#3498db">
-    <title>Stark Tracker - LeetCode Stats Tracker</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#6366f1">
+    <title>Stark Tracker - Coding Stats</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    
-    <!-- iOS Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%233498db'/><text x='50' y='60' font-size='40' text-anchor='middle' fill='white'>ST</text></svg>">
-    
-    <!-- Android Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%233498db'/><text x='50' y='60' font-size='40' text-anchor='middle' fill='white'>ST</text></svg>">
+    <style>
+        /* Modern CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            touch-action: manipulation;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Background Pattern */
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        /* Main Container */
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            max-width: 95vw;
+            width: 100%;
+            margin: 10px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            max-height: 95vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 900px;
+                width: 90%;
+                padding: 40px;
+                margin: 20px;
+                max-height: none;
+                overflow-y: visible;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="background-pattern"></div>
@@ -68,25 +142,23 @@
                     <h3>Problem Solving Progress</h3>
                     <div class="progress-grid">
                         <div class="progress-item">
-                            <div class="progress-circle easy-progress" id="circle">
+                            <div class="progress-circle easy-progress">
                                 <div class="progress-inner">
                                     <span id="easy-label">0/0</span>
                                     <small>Easy</small>
                                 </div>
                             </div>
                         </div>
-
                         <div class="progress-item">
-                            <div class="progress-circle medium-progress" id="circle">
+                            <div class="progress-circle medium-progress">
                                 <div class="progress-inner">
                                     <span id="medium-label">0/0</span>
                                     <small>Medium</small>
                                 </div>
                             </div>
                         </div>
-
                         <div class="progress-item">
-                            <div class="progress-circle hard-progress" id="circle">
+                            <div class="progress-circle hard-progress">
                                 <div class="progress-inner">
                                     <span id="hard-label">0/0</span>
                                     <small>Hard</small>
@@ -95,13 +167,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="stats-cards">
                     <h3>Performance Metrics</h3>
                     <div class="stats-card" id="leetcode-stats"></div>
                 </div>
             </div>
-
             <!-- GitHub Stats -->
             <div class="platform-content" id="github-content">
                 <div class="github-overview">
@@ -157,7 +227,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- HackerRank Stats -->
             <div class="platform-content" id="hackerrank-content">
                 <div class="hackerrank-overview">
@@ -215,9 +284,1208 @@
             <p>&copy; 2024 Stark Tracker. Created by <strong>theshlok18</strong> ™</p>
         </footer>
     </div>
-    
+    <style>
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
 
+        @media (min-width: 768px) {
+            .header {
+                margin-bottom: 35px;
+            }
+        }
 
-    <script src="script.js"></script>
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        @media (min-width: 768px) {
+            .logo i {
+                font-size: 2.8rem;
+            }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1f2937, #374151, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+
+        /* Platform Tabs */
+        .platform-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 6px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (min-width: 768px) {
+            .platform-tabs {
+                gap: 8px;
+                margin-bottom: 30px;
+                padding: 8px;
+                border-radius: 20px;
+            }
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 100px;
+            justify-content: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        @media (min-width: 768px) {
+            .tab-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+                gap: 8px;
+                min-width: 120px;
+            }
+        }
+
+        .tab-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            transform: translateY(-1px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+    <style>
+        /* Search Section */
+        .search-section {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 16px;
+            padding: 4px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .input-group {
+                border-radius: 18px;
+                padding: 6px;
+                max-width: 480px;
+            }
+        }
+
+        .input-group:focus-within {
+            border-color: #6366f1;
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .input-group i {
+            color: #9ca3af;
+            margin-left: 14px;
+            font-size: 1.1rem;
+        }
+
+        #user-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 14px;
+            font-size: 1rem;
+            background: transparent;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        @media (min-width: 768px) {
+            #user-input {
+                padding: 16px;
+                font-size: 1.1rem;
+            }
+        }
+
+        #user-input::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        #search-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-height: 44px;
+        }
+
+        @media (min-width: 768px) {
+            #search-btn {
+                padding: 14px 24px;
+                font-size: 1.1rem;
+            }
+        }
+
+        #search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, #5b21b6, #7c3aed);
+        }
+
+        #search-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Platform Content */
+        .platform-content {
+            display: none;
+        }
+
+        .platform-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stats Container */
+        .stats-container {
+            display: grid;
+            gap: 30px;
+        }
+
+        .progress-section h3,
+        .stats-cards h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .progress-section h3,
+            .stats-cards h3 {
+                font-size: 1.6rem;
+                margin-bottom: 24px;
+            }
+        }
+    </style>
+    <style>
+        /* Progress Circles */
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .progress-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+            }
+        }
+
+        .progress-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .progress-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: conic-gradient(var(--progress-color) var(--progress-degree, 0%), #f3f4f6 0%);
+            transition: all 0.6s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        @media (min-width: 768px) {
+            .progress-circle {
+                width: 140px;
+                height: 140px;
+            }
+        }
+
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        @media (min-width: 768px) {
+            .progress-circle::before {
+                width: 105px;
+                height: 105px;
+            }
+        }
+
+        .progress-inner {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #374151;
+        }
+
+        .progress-inner span {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        @media (min-width: 768px) {
+            .progress-inner span {
+                font-size: 1.3rem;
+                margin-bottom: 6px;
+            }
+        }
+
+        .progress-inner small {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (min-width: 768px) {
+            .progress-inner small {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Modern Progress Colors */
+        .easy-progress {
+            --progress-color: #10b981;
+        }
+
+        .medium-progress {
+            --progress-color: #f59e0b;
+        }
+
+        .hard-progress {
+            --progress-color: #ef4444;
+        }
+
+        /* Stats Cards */
+        .stats-card {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .stats-card {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        @media (min-width: 768px) {
+            .card {
+                padding: 24px;
+                border-radius: 18px;
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+            border-color: #6366f1;
+        }
+
+        .card h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card p {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #374151;
+            margin: 0;
+        }
+
+        @media (min-width: 768px) {
+            .card p {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    <style>
+        /* GitHub Styles */
+        .github-overview {
+            display: grid;
+            gap: 25px;
+        }
+
+        .profile-section {
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            min-width: 300px;
+        }
+
+        @media (max-width: 480px) {
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+                min-width: auto;
+                padding: 20px;
+            }
+        }
+
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-avatar i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .profile-info h3 {
+            margin: 0 0 6px 0;
+            color: #374151;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .profile-info p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .github-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .github-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .github-stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 480px) {
+            .github-stat-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+                padding: 16px;
+            }
+        }
+
+        .github-stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-color: #6366f1;
+        }
+
+        .github-stat-card i {
+            font-size: 1.6rem;
+            color: #6366f1;
+            width: 32px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #374151;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .language-chart {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+        }
+
+        .language-chart h3 {
+            margin: 0 0 16px 0;
+            color: #374151;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .languages-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .language-tag {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+        }
+    </style>
+    <style>
+        /* HackerRank Styles */
+        .hackerrank-overview {
+            display: grid;
+            gap: 25px;
+        }
+
+        .rank-section {
+            display: flex;
+            justify-content: center;
+        }
+
+        .rank-card {
+            background: white;
+            border-radius: 18px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            min-width: 280px;
+        }
+
+        .rank-card i {
+            font-size: 2.5rem;
+            color: #f59e0b;
+            margin-bottom: 12px;
+        }
+
+        .rank-info h3 {
+            margin: 0 0 6px 0;
+            color: #374151;
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .rank-info p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .badges-section h3,
+        .skills-section h3 {
+            color: #374151;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+        }
+
+        .badge-placeholder {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .badge-placeholder i {
+            font-size: 2rem;
+            color: #d1d5db;
+            margin-bottom: 8px;
+        }
+
+        .badge-placeholder p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .skill-card {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .skill-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+            }
+        }
+
+        .skill-card i {
+            font-size: 1.6rem;
+            color: #6366f1;
+            width: 32px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .skill-card span {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            flex: 1;
+        }
+
+        .skill-level {
+            width: 80px;
+            height: 6px;
+            background: #f3f4f6;
+            border-radius: 3px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 480px) {
+            .skill-level {
+                width: 60px;
+            }
+        }
+
+        .skill-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .footer strong {
+            color: #6366f1;
+            font-weight: 700;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+                margin: 5px;
+                border-radius: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo i {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                gap: 8px;
+                padding: 12px;
+            }
+            
+            #search-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .progress-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .stats-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Focus States */
+        #user-input:focus,
+        #search-btn:focus,
+        .tab-btn:focus {
+            outline: 2px solid #6366f1;
+            outline-offset: 2px;
+        }
+
+        /* Touch improvements */
+        .tab-btn,
+        #search-btn,
+        .card {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mobile optimization
+            let isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            // Elements
+            const searchButton = document.getElementById("search-btn");
+            const usernameInput = document.getElementById("user-input");
+            const tabButtons = document.querySelectorAll(".tab-btn");
+            const platformContents = document.querySelectorAll(".platform-content");
+            
+            // LeetCode elements
+            const easyProgressCircle = document.querySelector(".easy-progress");
+            const mediumProgressCircle = document.querySelector(".medium-progress");
+            const hardProgressCircle = document.querySelector(".hard-progress");
+            const easyLevel = document.getElementById("easy-label");
+            const mediumLevel = document.getElementById("medium-label");
+            const hardLevel = document.getElementById("hard-label");
+            const leetcodeStatsCard = document.getElementById("leetcode-stats");
+
+            // GitHub elements
+            const githubAvatar = document.getElementById("github-avatar");
+            const githubPlaceholder = document.getElementById("github-placeholder");
+            const githubName = document.getElementById("github-name");
+            const githubBio = document.getElementById("github-bio");
+            const githubRepos = document.getElementById("github-repos");
+            const githubFollowers = document.getElementById("github-followers");
+            const githubFollowing = document.getElementById("github-following");
+            const githubStars = document.getElementById("github-stars");
+            const githubLanguages = document.getElementById("github-languages");
+
+            // HackerRank elements
+            const hackerrankRank = document.getElementById("hackerrank-rank");
+            const hackerrankBadges = document.getElementById("hackerrank-badges");
+
+            let currentPlatform = "leetcode";
+
+            // Tab switching functionality
+            tabButtons.forEach(button => {
+                button.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    const platform = this.dataset.platform;
+                    switchPlatform(platform);
+                });
+                
+                if (isTouch) {
+                    button.addEventListener("touchstart", function() {
+                        this.style.transform = "scale(0.95)";
+                    });
+                    
+                    button.addEventListener("touchend", function() {
+                        this.style.transform = "";
+                    });
+                }
+            });
+
+            function switchPlatform(platform) {
+                currentPlatform = platform;
+                
+                tabButtons.forEach(btn => btn.classList.remove("active"));
+                document.querySelector(`[data-platform="${platform}"]`).classList.add("active");
+                
+                platformContents.forEach(content => content.classList.remove("active"));
+                document.getElementById(`${platform}-content`).classList.add("active");
+                
+                const placeholders = {
+                    leetcode: "Enter your LeetCode username",
+                    github: "Enter your GitHub username", 
+                    hackerrank: "Enter your HackerRank username"
+                };
+                usernameInput.placeholder = placeholders[platform];
+                usernameInput.value = "";
+                
+                clearPreviousResults();
+            }
+
+            function clearPreviousResults() {
+                if (easyLevel) easyLevel.textContent = "0/0";
+                if (mediumLevel) mediumLevel.textContent = "0/0";
+                if (hardLevel) hardLevel.textContent = "0/0";
+                if (leetcodeStatsCard) leetcodeStatsCard.innerHTML = "";
+                
+                [easyProgressCircle, mediumProgressCircle, hardProgressCircle].forEach(circle => {
+                    if (circle) circle.style.setProperty("--progress-degree", "0%");
+                });
+                
+                if (githubName) githubName.textContent = "GitHub Profile";
+                if (githubBio) githubBio.textContent = "Enter username to view profile";
+                if (githubAvatar) githubAvatar.style.display = "none";
+                if (githubPlaceholder) githubPlaceholder.style.display = "block";
+                if (githubRepos) githubRepos.textContent = "0";
+                if (githubFollowers) githubFollowers.textContent = "0";
+                if (githubFollowing) githubFollowing.textContent = "0";
+                if (githubStars) githubStars.textContent = "0";
+                if (githubLanguages) githubLanguages.innerHTML = "<p>No data available</p>";
+                
+                if (hackerrankRank) hackerrankRank.textContent = "Unranked";
+                
+                const skillBars = document.querySelectorAll(".skill-bar");
+                skillBars.forEach(bar => {
+                    bar.style.width = "0%";
+                });
+            }
+
+            function validateUsername(userName) {
+                if (userName.trim() === "") {
+                    showAlert("Username should not be empty");
+                    return false;
+                }
+                
+                if (currentPlatform === "leetcode") {
+                    const usernameRegex = /^[a-zA-Z][a-zA-Z0-9]{2,19}$/;
+                    if (!usernameRegex.test(userName)) {
+                        showAlert("Invalid LeetCode username format");
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+            
+            function showAlert(message) {
+                const alertDiv = document.createElement('div');
+                alertDiv.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #ef4444;
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    z-index: 10000;
+                    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+                `;
+                alertDiv.textContent = message;
+                document.body.appendChild(alertDiv);
+                
+                setTimeout(() => {
+                    if (alertDiv.parentElement) {
+                        alertDiv.remove();
+                    }
+                }, 3000);
+            }
+        </script>
+        <script>
+            // LeetCode API functions
+            async function fetchLeetCodeData(userName) {
+                const url = `https://leetcode-stats-api.herokuapp.com/${userName}`;
+                
+                try {
+                    searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+                    searchButton.disabled = true;
+                    
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error("Unable to fetch LeetCode data");
+                    }
+                    
+                    const data = await response.json();
+                    displayLeetCodeData(data);
+                } catch (error) {
+                    leetcodeStatsCard.innerHTML = `<div class="card"><h4>Error</h4><p>${error.message}</p></div>`;
+                } finally {
+                    searchButton.innerHTML = '<i class="fas fa-search"></i> <span>Search</span>';
+                    searchButton.disabled = false;
+                }
+            }
+
+            function displayLeetCodeData(data) {
+                const totalEasyQuestion = data.totalEasy;
+                const totalMediumQuestion = data.totalMedium;
+                const totalHardQuestion = data.totalHard;
+
+                const totalEasySolvedQuestion = data.easySolved;
+                const totalMediumSolvedQuestion = data.mediumSolved;
+                const totalHardSolvedQuestion = data.hardSolved;
+
+                updateProgress(totalEasySolvedQuestion, totalEasyQuestion, easyLevel, easyProgressCircle);
+                updateProgress(totalMediumSolvedQuestion, totalMediumQuestion, mediumLevel, mediumProgressCircle);
+                updateProgress(totalHardSolvedQuestion, totalHardQuestion, hardLevel, hardProgressCircle);
+
+                const cardData = [
+                    { label: "Acceptance Rate", value: data.acceptanceRate || "N/A" },
+                    { label: "Global Ranking", value: data.ranking || "Unranked" },
+                    { label: "Contribution Points", value: data.contributionPoints || "0" },
+                    { label: "Reputation", value: data.reputation || "0" }
+                ];
+
+                leetcodeStatsCard.innerHTML = cardData.map(item => 
+                    `<div class="card">
+                        <h4>${item.label}</h4>
+                        <p>${item.value}</p>
+                    </div>`
+                ).join("");
+            }
+
+            // GitHub API functions
+            async function fetchGitHubData(userName) {
+                try {
+                    searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+                    searchButton.disabled = true;
+
+                    const userResponse = await fetch(`https://api.github.com/users/${userName}`);
+                    if (!userResponse.ok) {
+                        throw new Error("GitHub user not found");
+                    }
+                    
+                    const userData = await userResponse.json();
+                    
+                    const reposResponse = await fetch(`https://api.github.com/users/${userName}/repos?per_page=100`);
+                    const reposData = await reposResponse.json();
+                    
+                    displayGitHubData(userData, reposData);
+                } catch (error) {
+                    displayGitHubError(error.message);
+                } finally {
+                    searchButton.innerHTML = '<i class="fas fa-search"></i> <span>Search</span>';
+                    searchButton.disabled = false;
+                }
+            }
+
+            function displayGitHubData(userData, reposData) {
+                githubName.textContent = userData.name || userData.login;
+                githubBio.textContent = userData.bio || "No bio available";
+                
+                if (userData.avatar_url) {
+                    githubAvatar.src = userData.avatar_url;
+                    githubAvatar.style.display = "block";
+                    githubPlaceholder.style.display = "none";
+                }
+
+                githubRepos.textContent = userData.public_repos;
+                githubFollowers.textContent = userData.followers;
+                githubFollowing.textContent = userData.following;
+                
+                const totalStars = reposData.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+                githubStars.textContent = totalStars;
+
+                const languages = {};
+                reposData.forEach(repo => {
+                    if (repo.language) {
+                        languages[repo.language] = (languages[repo.language] || 0) + 1;
+                    }
+                });
+
+                const sortedLanguages = Object.entries(languages)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 5);
+
+                if (sortedLanguages.length > 0) {
+                    githubLanguages.innerHTML = sortedLanguages.map(([lang, count]) => 
+                        `<span class="language-tag">${lang} (${count})</span>`
+                    ).join("");
+                } else {
+                    githubLanguages.innerHTML = "<p>No language data available</p>";
+                }
+            }
+
+            function displayGitHubError(message) {
+                githubName.textContent = "Error";
+                githubBio.textContent = message;
+                githubAvatar.style.display = "none";
+                githubPlaceholder.style.display = "block";
+                githubRepos.textContent = "0";
+                githubFollowers.textContent = "0";
+                githubFollowing.textContent = "0";
+                githubStars.textContent = "0";
+                githubLanguages.innerHTML = "<p>No data available</p>";
+            }
+
+            // HackerRank functions
+            async function fetchHackerRankData(userName) {
+                try {
+                    searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+                    searchButton.disabled = true;
+                    
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    displayHackerRankMessage();
+                } catch (error) {
+                    displayHackerRankError(error.message);
+                } finally {
+                    searchButton.innerHTML = '<i class="fas fa-search"></i> <span>Search</span>';
+                    searchButton.disabled = false;
+                }
+            }
+
+            function displayHackerRankMessage() {
+                hackerrankRank.textContent = "API Limited";
+                
+                hackerrankBadges.innerHTML = `
+                    <div class="badge-placeholder">
+                        <i class="fas fa-info-circle"></i>
+                        <p>HackerRank doesn't provide a public API. Please check your profile manually.</p>
+                    </div>
+                `;
+
+                const skillBars = document.querySelectorAll(".skill-bar");
+                const sampleSkills = [75, 60, 85];
+                
+                skillBars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.width = `${sampleSkills[index] || 0}%`;
+                    }, 500 + (index * 200));
+                });
+            }
+
+            function updateProgress(solved, total, label, circle) {
+                const progressDegree = total > 0 ? (solved / total) * 100 : 0;
+                circle.style.setProperty("--progress-degree", `${progressDegree}%`);
+                label.textContent = `${solved}/${total}`;
+            }
+
+            async function handleSearch() {
+                const userName = usernameInput.value.trim();
+                
+                if (!validateUsername(userName)) {
+                    return;
+                }
+
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+
+                try {
+                    switch (currentPlatform) {
+                        case "leetcode":
+                            await fetchLeetCodeData(userName);
+                            break;
+                        case "github":
+                            await fetchGitHubData(userName);
+                            break;
+                        case "hackerrank":
+                            await fetchHackerRankData(userName);
+                            break;
+                    }
+                    
+                    if (navigator.vibrate) {
+                        navigator.vibrate([50, 100, 50]);
+                    }
+                } catch (error) {
+                    if (navigator.vibrate) {
+                        navigator.vibrate([100, 50, 100]);
+                    }
+                    showAlert("Search failed. Please try again.");
+                }
+            }
+
+            // Event listeners
+            searchButton.addEventListener("click", handleSearch);
+            
+            usernameInput.addEventListener("keypress", function(e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSearch();
+                }
+            });
+            
+            if (isTouch) {
+                searchButton.addEventListener("touchstart", function() {
+                    if (!this.disabled) {
+                        this.style.transform = "scale(0.95)";
+                    }
+                });
+                
+                searchButton.addEventListener("touchend", function() {
+                    this.style.transform = "";
+                });
+            }
+        });
+    </script>
 </body>
 </html>
