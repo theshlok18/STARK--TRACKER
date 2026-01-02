@@ -1,0 +1,25 @@
+# GitHub Pages Configuration for Stark Tracker
+title: "Stark Tracker - Coding Stats"
+description: "Track your coding progress across LeetCode, GitHub, and HackerRank"
+author: "theshlok18"
+
+# GitHub Pages settings
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Site settings
+url: "https://theshlok18.github.io"
+baseurl: "/STARK--TRACKER"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude files
+exclude:
+  - README.md
+  - README-Complete.md
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
